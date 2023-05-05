@@ -91,3 +91,24 @@ window.onload = function () {
     })
     .catch((error) => console.error(error));
 };
+
+// BUTTON CHECKER
+const checkbox = document.getElementById("flexCheckDefault");
+checkbox.checked = false;
+
+const submitBtn = document.getElementById("submitBtn");
+
+window.addEventListener("load", function () {
+  submitBtn.classList.add("btn-primary-pl");
+});
+
+checkbox.addEventListener("change", function () {
+  if (this.checked) {
+    submitBtn.classList.remove("btn-primary-pl");
+    submitBtn.classList.add("btn-warning-pl");
+  } else {
+    submitBtn.classList.remove("btn-warning-pl");
+    submitBtn.classList.add("btn-primary-pl");
+  }
+  submitBtn.disabled = !this.checked;
+});

@@ -39,32 +39,52 @@
 }
 
 .caption-span {
-  font-size: 12px;
+  font-size: 13px;
   color: #9ca3af;
   margin-bottom: 10px;
 }
 
+input,
+select {
+  padding: 10px !important;
+}
+
 input::placeholder {
   font-size: 14px;
-  color: #9ca3af52;
+  color: #bbbbbbeb !important;
   margin-bottom: 10px;
 }
 
-.plBtn {
-  background: #f59e0b;
-  border: none;
+.btn-primary-pl {
+  width: 50%;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid #f59e0b;
+  outline: none;
+  border-radius: 8px;
+  outline: none;
   font-size: 14px;
-  color: #fff;
-  width: 55%;
 }
 
-@media (max-width: 772px) {
-  .plBtn {
-    width: 100%;
-  }
+.btn-warning-pl {
+  background-color: orange;
+  border: none;
+  width: 50%;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  color: white;
+  font-size: 14px;
 }
 
-.plBtn:hover {
-  color: #fff;
-  background: #f59f0bda !important;
+.check-writeup {
+  color: #9ca3af;
+}
+
+.student_policy {
+  color: #f59e0b;
+}
+
+.fw-medium {
+  color: #222057 !important;
 }
