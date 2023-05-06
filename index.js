@@ -3,7 +3,9 @@ function submitForm(event) {
   var name = document.getElementById("name").value;
   var email = document.getElementById("email").value;
   var phoneNumber = document.getElementById("phone_number").value;
-  var courseOfInterest = document.getElementById("course_of_interest").value;
+  var courseOfInterest = document
+    .getElementById("course_of_interest")
+    .selectedOptions[0].getAttribute("data-name"); // retrieve course name from data attribute
   var address = document.getElementById("address").value;
   var city = document.getElementById("city").value;
   var stateOfResidence = document.getElementById("state_of_residence").value;
@@ -22,6 +24,7 @@ function submitForm(event) {
   formdata.append("email", email);
   formdata.append("phone_number", phoneNumber);
   formdata.append("course_of_interest", courseOfInterest);
+  console.log(courseOfInterest);
   formdata.append("address", address);
   formdata.append("city", city);
   formdata.append("state_of_residence", stateOfResidence);
@@ -43,33 +46,49 @@ function submitForm(event) {
     "https://pluralcode.academy/pluralcode_apis/api/enroll_student",
     requestOptions
   )
-    // .then((response) => {
-    //   if (response.status === "success") {
-    //     return response.json();
-    //   } else {
-    //     throw new Error("All fields required");
-    //   }
-    // })
-    // .then((result) => {
-    //   console.log(result);
-    //   Swal.fire({
-    //     icon: "success",
-    //     text: "Records successfully created",
-    //     confirmButtonColor: "#2d85de",
-    //   });
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-
-    //   Swal.fire({
-    //     icon: "error",
-    //     text: error.message,
-    //     confirmButtonColor: "#2d85de",
-    //   });
-    // });
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status === "success") {
+        Swal.fire({
+          icon: "success",
+          confirmButtonColor: "#222057",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Clear form fields
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone_number").value = "";
+            document.getElementById("course_of_interest").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("city").value = "";
+            document.getElementById("state_of_residence").value = "";
+            document.getElementById("reference_name").value = "";
+            document.getElementById("reference_phone").value = "";
+            document.getElementById("program_type").value = "";
+            document.getElementById("passport_photograph").value = "";
+            document.getElementById("personal_id_photograph").value = "";
+            document.getElementById("reference_email").value = "";
+            document.getElementById("country").value = "";
+            // Reload page
+            window.location.reload();
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          text: "All fields are required",
+          confirmButtonColor: "#222057",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log("error", error);
+      Swal.fire({
+        icon: "error",
+        text: "All fields are required",
+        confirmButtonColor: "#222057",
+      });
+    });
 }
 
 // COURSES
@@ -86,6 +105,8 @@ window.onload = function () {
         const option = document.createElement("option");
         option.value = course.id;
         option.text = course.name;
+        option.setAttribute("data-name", course.name); // add data attribute with course name
+
         select.add(option);
       });
     })
