@@ -77,12 +77,16 @@ function submitForm(event) {
     });
     errorMessage = errorMessage.slice(0, -2) + ".";
     var errorAlert =
-      '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+      '<div class="alert alert-danger alert-dismissible fade show w-50 mx-auto" role="alert">' +
       errorMessage +
       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     document.getElementById("form-messages").innerHTML = errorAlert;
     return;
   }
+
+  // change button text to "submitting"
+  var submitBtn = document.getElementById("submitBtn");
+  submitBtn.innerHTML = "Submitting...";
 
   // set up fetch request options
   var requestOptions = {
@@ -97,8 +101,18 @@ function submitForm(event) {
     .then((response) => response.json())
     .then((data) => {
       console.log(data); // log response to console for debugging purposes
-      // display response to user
-      alert("Your enrollment was successful!");
+      // change button text back to "submit form"
+      submitBtn.innerHTML = "Submit Form";
+
+      var successAlert = `
+      <div class="alert alert-success alert-dismissible fade show w-50 mx-auto" role="alert">
+        Your enrollment was successful!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    `;
+      document.getElementById("form-messages").innerHTML = successAlert;
+      document.getElementById("submitBtn").innerText = "Submit Form";
+      document.getElementById("enrollmentForm").reset();
     })
     .catch((error) => console.log("error", error));
 }
