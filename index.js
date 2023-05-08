@@ -24,7 +24,6 @@ function submitForm(event) {
   formdata.append("email", email);
   formdata.append("phone_number", phoneNumber);
   formdata.append("course_of_interest", courseOfInterest);
-  console.log(courseOfInterest);
   formdata.append("address", address);
   formdata.append("city", city);
   formdata.append("state_of_residence", stateOfResidence);
@@ -35,6 +34,23 @@ function submitForm(event) {
   formdata.append("personal_id_photograph", personalIdPhotograph);
   formdata.append("reference_email", referenceEmail);
   formdata.append("country", country);
+
+  console.log(
+    name,
+    email,
+    phoneNumber,
+    courseOfInterest,
+    address,
+    city,
+    stateOfResidence,
+    referenceName,
+    referencePhone,
+    programType,
+    passportPhotograph,
+    personalIdPhotograph,
+    referenceEmail,
+    country
+  );
 
   var requestOptions = {
     method: "POST",
@@ -94,8 +110,7 @@ function submitForm(event) {
       var successMessage = document.getElementById("successMessage");
       successMessage.style.display = "block";
       successMessage.className = "alert alert-danger w-50 mx-auto";
-      successMessage.innerHTML =
-        "An error occurred. Please make sure all fields are filled";
+      successMessage.innerHTML = "An error occurred. Please try again later";
     });
 }
 
