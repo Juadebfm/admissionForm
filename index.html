@@ -233,7 +233,7 @@
               class="form-check-input"
               type="checkbox"
               value=""
-              id="flexCheckDefault"
+              id="agree_checkbox"
             />
             <label
               class="form-check-label check-writeup"
@@ -251,7 +251,7 @@
           <div class="d-grid mt-4">
             <button
               id="submitBtn"
-              class="mx-auto btn-primary-pl"
+              class="mx-auto btn-warning-pl"
               type="submit"
               onclick="submitForm(event)"
             >
@@ -259,13 +259,7 @@
             </button>
           </div>
         </form>
-        <div
-          id="successMessage"
-          class="alert alert-success w-50 mx-auto"
-          style="display: none"
-        >
-          Your form was submitted successfully!
-        </div>
+        <div id="form-messages"></div>
       </section>
     </div>
 

@@ -1,11 +1,13 @@
 function submitForm(event) {
   event.preventDefault();
+
+  // get form data
   var name = document.getElementById("name").value;
   var email = document.getElementById("email").value;
   var phoneNumber = document.getElementById("phone_number").value;
   var courseOfInterest = document
     .getElementById("course_of_interest")
-    .selectedOptions[0].getAttribute("data-name"); // retrieve course name from data attribute
+    .selectedOptions[0].getAttribute("data-name");
   var address = document.getElementById("address").value;
   var city = document.getElementById("city").value;
   var stateOfResidence = document.getElementById("state_of_residence").value;
@@ -18,7 +20,9 @@ function submitForm(event) {
     .files[0];
   var referenceEmail = document.getElementById("reference_email").value;
   var country = document.getElementById("country").value;
+  var agreeCheckbox = document.getElementById("agree_checkbox");
 
+  // create form data object
   var formdata = new FormData();
   formdata.append("name", name);
   formdata.append("email", email);
@@ -35,83 +39,68 @@ function submitForm(event) {
   formdata.append("reference_email", referenceEmail);
   formdata.append("country", country);
 
-  console.log(
-    name,
-    email,
-    phoneNumber,
-    courseOfInterest,
-    address,
-    city,
-    stateOfResidence,
-    referenceName,
-    referencePhone,
-    programType,
-    passportPhotograph,
-    personalIdPhotograph,
-    referenceEmail,
-    country
-  );
+  // check if all required fields are filled
+  var requiredFields = [
+    "name",
+    "email",
+    "phone_number",
+    "course_of_interest",
+    "address",
+    "city",
+    "state_of_residence",
+    "reference_name",
+    "reference_phone",
+    "program_type",
+    "passport_photograph",
+    "personal_id_photograph",
+    "reference_email",
+    "country",
+  ];
+  var filledFields = true;
+  var errorFields = [];
+  requiredFields.forEach(function (field) {
+    if (
+      (field == "passport_photograph" || field == "personal_id_photograph") &&
+      !formdata.get(field)
+    ) {
+      filledFields = false;
+      errorFields.push(field);
+    } else if (formdata.get(field) == "") {
+      filledFields = false;
+      errorFields.push(field);
+    }
+  });
+  if (!filledFields) {
+    var errorMessage = "Please fill in the following fields: ";
+    errorFields.forEach(function (field) {
+      errorMessage += field + ", ";
+    });
+    errorMessage = errorMessage.slice(0, -2) + ".";
+    var errorAlert =
+      '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+      errorMessage +
+      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
+    document.getElementById("form-messages").innerHTML = errorAlert;
+    return;
+  }
 
+  // set up fetch request options
   var requestOptions = {
     method: "POST",
     body: formdata,
     redirect: "follow",
   };
-
-  var submitButton = document.getElementById("submitBtn");
-  submitButton.disabled = true;
-  submitButton.textContent = "Submitting...";
-
   fetch(
-    "https://pluralcode.academy/pluralcode_apis/api/enroll_student",
+    "http://pluralcode.academy/pluralcode_apis/api/enroll_student",
     requestOptions
   )
     .then((response) => response.json())
-    .then((result) => {
-      var successMessage = document.getElementById("successMessage");
-      if (result.status === "success") {
-        successMessage.className = "alert alert-success w-50 mx-auto";
-        successMessage.innerHTML = "Enrollment Successful!";
-      } else {
-        successMessage.className = "alert alert-danger w-50 mx-auto";
-        successMessage.innerHTML = "Error: " + result.message;
-      }
-      successMessage.style.display = "block";
-
-      // Hide success message after 10 seconds
-      setTimeout(function () {
-        successMessage.style.display = "none";
-        // Clear form fields
-        document.getElementById("name").value = "";
-        document.getElementById("email").value = "";
-        document.getElementById("phone_number").value = "";
-        document.getElementById("course_of_interest").value = "";
-        document.getElementById("address").value = "";
-        document.getElementById("city").value = "";
-        document.getElementById("state_of_residence").value = "";
-        document.getElementById("reference_name").value = "";
-        document.getElementById("reference_phone").value = "";
-        document.getElementById("program_type").value = "";
-        document.getElementById("passport_photograph").value = "";
-        document.getElementById("personal_id_photograph").value = "";
-        document.getElementById("reference_email").value = "";
-        document.getElementById("country").value = "";
-      }, 15000);
-
-      // Change submit button text back to "Submit Form"
-      submitButton.disabled = false;
-      submitButton.textContent = "Submit Form";
+    .then((data) => {
+      console.log(data); // log response to console for debugging purposes
+      // display response to user
+      alert("Your enrollment was successful!");
     })
-    .catch((error) => {
-      console.log("error", error);
-      submitButton.disabled = false;
-      submitButton.textContent = "Submit Form";
-
-      var successMessage = document.getElementById("successMessage");
-      successMessage.style.display = "block";
-      successMessage.className = "alert alert-danger w-50 mx-auto";
-      successMessage.innerHTML = "An error occurred. Please try again later";
-    });
+    .catch((error) => console.log("error", error));
 }
 
 // COURSES
@@ -135,24 +124,3 @@ window.onload = function () {
     })
     .catch((error) => console.error(error));
 };
-
-// BUTTON CHECKER
-const checkbox = document.getElementById("flexCheckDefault");
-checkbox.checked = false;
-
-const submitBtn = document.getElementById("submitBtn");
-
-window.addEventListener("load", function () {
-  submitBtn.classList.add("btn-primary-pl");
-});
-
-checkbox.addEventListener("change", function () {
-  if (this.checked) {
-    submitBtn.classList.remove("btn-primary-pl");
-    submitBtn.classList.add("btn-warning-pl");
-  } else {
-    submitBtn.classList.remove("btn-warning-pl");
-    submitBtn.classList.add("btn-primary-pl");
-  }
-  submitBtn.disabled = !this.checked;
-});

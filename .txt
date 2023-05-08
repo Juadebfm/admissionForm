@@ -53,3 +53,11 @@
         document.getElementById("personal_id_photograph").value = "";
         document.getElementById("reference_email").value = "";
         document.getElementById("country").value = "";
+
+              if (error.code === "server_error") {
+        displayMessage("error", "Server error, try again later.");
+      } else if (error.code === "network_error") {
+        displayMessage("error", "Network connection error.");
+      } else {
+        displayMessage("error", "Please check all fields");
+      }
