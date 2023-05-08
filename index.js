@@ -53,9 +53,10 @@ function submitForm(event) {
         successMessage.style.display = "block";
         successMessage.innerHTML = "Enrollment Successful!";
 
-        window.addEventListener("unload", function () {
+        // Hide success message after 10 seconds
+        setTimeout(function () {
           successMessage.style.display = "none";
-        });
+        }, 10000);
 
         // Clear form fields
         document.getElementById("name").value = "";
