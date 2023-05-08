@@ -91,7 +91,7 @@ function submitForm(event) {
     redirect: "follow",
   };
   fetch(
-    "http://pluralcode.academy/pluralcode_apis/api/enroll_student",
+    "https://pluralcode.academy/pluralcode_apis/api/enroll_student",
     requestOptions
   )
     .then((response) => response.json())
