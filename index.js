@@ -56,16 +56,17 @@ function submitForm(event) {
     "reference_email",
     "country",
   ];
+
   var filledFields = true;
   var errorFields = [];
   requiredFields.forEach(function (field) {
     if (
       (field == "passport_photograph" || field == "personal_id_photograph") &&
-      !formdata.get(field)
+      !document.getElementById(field).files[0]
     ) {
       filledFields = false;
       errorFields.push(field);
-    } else if (formdata.get(field) == "") {
+    } else if (!formdata.get(field)) {
       filledFields = false;
       errorFields.push(field);
     }
