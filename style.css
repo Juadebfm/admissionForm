@@ -89,6 +89,15 @@ input::placeholder {
   color: #f59e0b;
 }
 
+.student_policy {
+  color: #f59e0b;
+  text-decoration: none;
+}
+
+.student_policy:hover {
+  text-decoration: underline;
+}
+
 .fw-medium {
   color: #222057 !important;
 }

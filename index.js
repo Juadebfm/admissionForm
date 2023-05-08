@@ -49,52 +49,47 @@ function submitForm(event) {
     .then((response) => response.json())
     .then((result) => {
       if (result.status === "success") {
-        Swal.fire({
-          icon: "success",
-          confirmButtonColor: "#222057",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Clear form fields
-            document.getElementById("name").value = "";
-            document.getElementById("email").value = "";
-            document.getElementById("phone_number").value = "";
-            document.getElementById("course_of_interest").value = "";
-            document.getElementById("address").value = "";
-            document.getElementById("city").value = "";
-            document.getElementById("state_of_residence").value = "";
-            document.getElementById("reference_name").value = "";
-            document.getElementById("reference_phone").value = "";
-            document.getElementById("program_type").value = "";
-            document.getElementById("passport_photograph").value = "";
-            document.getElementById("personal_id_photograph").value = "";
-            document.getElementById("reference_email").value = "";
-            document.getElementById("country").value = "";
-            // Reload page
-            window.location.reload();
-          }
+        var successMessage = document.getElementById("successMessage");
+        successMessage.style.display = "block";
+        successMessage.innerHTML = "Enrollment Successful!";
+
+        window.addEventListener("unload", function () {
+          successMessage.style.display = "none";
         });
+
+        // Clear form fields
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("phone_number").value = "";
+        document.getElementById("course_of_interest").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("city").value = "";
+        document.getElementById("state_of_residence").value = "";
+        document.getElementById("reference_name").value = "";
+        document.getElementById("reference_phone").value = "";
+        document.getElementById("program_type").value = "";
+        document.getElementById("passport_photograph").value = "";
+        document.getElementById("personal_id_photograph").value = "";
+        document.getElementById("reference_email").value = "";
+        document.getElementById("country").value = "";
+
+        // Reload page
+        // window.location.reload();
       } else {
-        Swal.fire({
-          icon: "error",
-          text: "All fields are required",
-          confirmButtonColor: "#222057",
-        });
+        var successMessage = document.getElementById("successMessage");
+        successMessage.style.display = "block";
+        successMessage.innerHTML = "All fields required";
       }
     })
     .catch((error) => {
       console.log("error", error);
-      Swal.fire({
-        icon: "error",
-        text: "All fields are required",
-        confirmButtonColor: "#222057",
-      });
     });
 }
 
 // COURSES
 window.onload = function () {
   // Fetch data from API endpoint
-  fetch("https://pluralcode.academy/pluralcode_apis/api/bot_course_list")
+  fetch("http://pluralcode.academy/pluralcode_apis/api/bot_course_list")
     .then((response) => response.json())
     .then((data) => {
       // Get select element by ID
