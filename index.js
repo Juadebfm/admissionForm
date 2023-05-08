@@ -102,7 +102,7 @@ function submitForm(event) {
 // COURSES
 window.onload = function () {
   // Fetch data from API endpoint
-  fetch("http://pluralcode.academy/pluralcode_apis/api/bot_course_list")
+  fetch("https://pluralcode.academy/pluralcode_apis/api/bot_course_list")
     .then((response) => response.json())
     .then((data) => {
       // Get select element by ID
