@@ -42,22 +42,29 @@ function submitForm(event) {
     redirect: "follow",
   };
 
+  var submitButton = document.getElementById("submitBtn");
+  submitButton.disabled = true;
+  submitButton.textContent = "Submitting...";
+
   fetch(
     "https://pluralcode.academy/pluralcode_apis/api/enroll_student",
     requestOptions
   )
     .then((response) => response.json())
     .then((result) => {
+      var successMessage = document.getElementById("successMessage");
       if (result.status === "success") {
-        var successMessage = document.getElementById("successMessage");
-        successMessage.style.display = "block";
+        successMessage.className = "alert alert-success w-50 mx-auto";
         successMessage.innerHTML = "Enrollment Successful!";
+      } else {
+        successMessage.className = "alert alert-danger w-50 mx-auto";
+        successMessage.innerHTML = "Error: " + result.message;
+      }
+      successMessage.style.display = "block";
 
-        // Hide success message after 10 seconds
-        setTimeout(function () {
-          successMessage.style.display = "none";
-        }, 10000);
-
+      // Hide success message after 10 seconds
+      setTimeout(function () {
+        successMessage.style.display = "none";
         // Clear form fields
         document.getElementById("name").value = "";
         document.getElementById("email").value = "";
@@ -73,17 +80,22 @@ function submitForm(event) {
         document.getElementById("personal_id_photograph").value = "";
         document.getElementById("reference_email").value = "";
         document.getElementById("country").value = "";
+      }, 15000);
 
-        // Reload page
-        // window.location.reload();
-      } else {
-        var successMessage = document.getElementById("successMessage");
-        successMessage.style.display = "block";
-        successMessage.innerHTML = "All fields required";
-      }
+      // Change submit button text back to "Submit Form"
+      submitButton.disabled = false;
+      submitButton.textContent = "Submit Form";
     })
     .catch((error) => {
       console.log("error", error);
+      submitButton.disabled = false;
+      submitButton.textContent = "Submit Form";
+
+      var successMessage = document.getElementById("successMessage");
+      successMessage.style.display = "block";
+      successMessage.className = "alert alert-danger w-50 mx-auto";
+      successMessage.innerHTML =
+        "An error occurred. Please make sure all fields are filled";
     });
 }
 

@@ -1,0 +1,55 @@
+    // .then((response) => response.json())
+    // .then((result) => {
+    //   if (result.status === "success") {
+    //     var successMessage = document.getElementById("successMessage");
+    //     successMessage.style.display = "block";
+    //     successMessage.innerHTML = "Enrollment Successful!";
+
+    //     // Hide success message after 10 seconds
+    //     setTimeout(function () {
+    //       successMessage.style.display = "none";
+    //     }, 10000);
+
+    //     // Clear form fields
+    //     document.getElementById("name").value = "";
+    //     document.getElementById("email").value = "";
+    //     document.getElementById("phone_number").value = "";
+    //     document.getElementById("course_of_interest").value = "";
+    //     document.getElementById("address").value = "";
+    //     document.getElementById("city").value = "";
+    //     document.getElementById("state_of_residence").value = "";
+    //     document.getElementById("reference_name").value = "";
+    //     document.getElementById("reference_phone").value = "";
+    //     document.getElementById("program_type").value = "";
+    //     document.getElementById("passport_photograph").value = "";
+    //     document.getElementById("personal_id_photograph").value = "";
+    //     document.getElementById("reference_email").value = "";
+    //     document.getElementById("country").value = "";
+
+    //     // Reload page
+    //     // window.location.reload();
+    //   } else {
+    //     var successMessage = document.getElementById("successMessage");
+    //     successMessage.style.display = "block";
+    //     successMessage.innerHTML = "All fields required";
+    //   }
+    // })
+    // .catch((error) => {
+    //   console.log("error", error);
+    // });
+
+            // Clear form fields
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("phone_number").value = "";
+        document.getElementById("course_of_interest").value = "";
+        document.getElementById("address").value = "";
+        document.getElementById("city").value = "";
+        document.getElementById("state_of_residence").value = "";
+        document.getElementById("reference_name").value = "";
+        document.getElementById("reference_phone").value = "";
+        document.getElementById("program_type").value = "";
+        document.getElementById("passport_photograph").value = "";
+        document.getElementById("personal_id_photograph").value = "";
+        document.getElementById("reference_email").value = "";
+        document.getElementById("country").value = "";
