@@ -77,7 +77,7 @@ function submitForm(event) {
     });
     errorMessage = errorMessage.slice(0, -2) + ".";
     var errorAlert =
-      '<div class="alert alert-danger alert-dismissible fade show w-50 mx-auto" role="alert">' +
+      '<div class="alert alert-danger alert-dismissible fade show w-75 mx-auto" role="alert">' +
       errorMessage +
       '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     document.getElementById("form-messages").innerHTML = errorAlert;
@@ -105,7 +105,7 @@ function submitForm(event) {
       submitBtn.innerHTML = "Submit Form";
 
       var successAlert = `
-      <div class="alert alert-success alert-dismissible fade show w-50 mx-auto" role="alert">
+      <div class="alert alert-success alert-dismissible fade show w-75 mx-auto" role="alert">
         Your enrollment was successful!
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
