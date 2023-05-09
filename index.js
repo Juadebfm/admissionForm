@@ -39,7 +39,6 @@ function submitForm(event) {
   formdata.append("reference_email", referenceEmail);
   formdata.append("country", country);
 
-  // check if all required fields are filled
   var requiredFields = [
     "name",
     "email",
@@ -48,33 +47,42 @@ function submitForm(event) {
     "address",
     "city",
     "state_of_residence",
-    "reference_name",
-    "reference_phone",
     "program_type",
-    "passport_photograph",
-    "personal_id_photograph",
-    "reference_email",
     "country",
+    "agree_checkbox", // add the checkbox field
   ];
+
+  var requiredCheckboxes = ["agree_checkbox"]; // specify which fields are checkboxes
 
   var filledFields = true;
   var errorFields = [];
   requiredFields.forEach(function (field) {
-    if (
-      (field == "passport_photograph" || field == "personal_id_photograph") &&
-      !document.getElementById(field).files[0]
-    ) {
+    if (field == "course_of_interest" && !formdata.get(field)) {
       filledFields = false;
       errorFields.push(field);
+    } else if (requiredCheckboxes.includes(field)) {
+      // check if field is a checkbox
+      if (!document.getElementById(field).checked) {
+        // check if checkbox is checked
+        filledFields = false;
+        errorFields.push(field);
+      }
     } else if (!formdata.get(field)) {
       filledFields = false;
       errorFields.push(field);
     }
   });
+
   if (!filledFields) {
-    var errorMessage = "Please fill in the following fields: ";
+    var errorMessage =
+      "Please ensure that you select a course of interest and: ";
     errorFields.forEach(function (field) {
-      errorMessage += field + ", ";
+      if (requiredCheckboxes.includes(field)) {
+        // update error message for checkboxes
+        errorMessage += "<div>Agree to our students policy.</div> ";
+      } else {
+        errorMessage += field + ", ";
+      }
     });
     errorMessage = errorMessage.slice(0, -2) + ".";
     var errorAlert =
@@ -115,7 +123,17 @@ function submitForm(event) {
       document.getElementById("submitBtn").innerText = "Submit Form";
       document.getElementById("enrollmentForm").reset();
     })
-    .catch((error) => console.log("error", error));
+    .catch((error) => {
+      console.log("error", error);
+      var errorAlert = `
+      <div class="alert alert-danger alert-dismissible fade show w-75 mx-auto" role="alert">
+        Please ensure you select a course of interest.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    `;
+      document.getElementById("form-messages").innerHTML = errorAlert;
+      document.getElementById("submitBtn").innerText = "Submit Form";
+    });
 }
 
 // COURSES
