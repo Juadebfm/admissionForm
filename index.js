@@ -134,6 +134,7 @@ function submitForm(event) {
           icon: "success",
           text: `${data.status} ${data.message}`,
           confirmButtonText: "OK",
+          confirmButtonColor: "#f59e0b",
         });
         setTimeout(() => {
           getForm.reset();
@@ -143,6 +144,7 @@ function submitForm(event) {
           icon: "info",
           text: `${data.message}`,
           confirmButtonText: "OK",
+          confirmButtonColor: "#f59e0b",
         });
       } else {
         Swal.fire({
@@ -150,6 +152,7 @@ function submitForm(event) {
           title: "An error occurred",
           html: "Please try again later.<br>Please try again in an hour.",
           confirmButtonText: "OK",
+          confirmButtonColor: "#f59e0b",
         });
       }
     })
@@ -159,6 +162,7 @@ function submitForm(event) {
         icon: "error",
         text: "Please make sure you filled the course of interest. If you have filled it and still encounter an error, please try again later.",
         confirmButtonText: "OK",
+        confirmButtonColor: "#f59e0b",
       });
       submitBtn.innerHTML = "Submit Form";
     });
@@ -272,10 +276,11 @@ fileInput.addEventListener("change", function () {
     fileInput.value = "";
     // Show an error message to the user
     Swal.fire({
-      icon: "error",
+      icon: "info",
       title: "File Size Exceeded",
       text: "Please choose an image file that is smaller than 400kb.",
       confirmButtonText: "OK",
+      confirmButtonColor: "#f59e0b",
     });
   }
 });
@@ -292,10 +297,11 @@ fileIdInput.addEventListener("change", function () {
     fileIdInput.value = "";
     // Show an error message to the user
     Swal.fire({
-      icon: "error",
+      icon: "info",
       title: "File Size Exceeded",
       text: "Please choose an image file that is smaller than 400kb.",
       confirmButtonText: "OK",
+      confirmButtonColor: "#f59e0b",
     });
   }
 });
