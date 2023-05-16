@@ -98,12 +98,11 @@ function submitForm(event) {
     }
 
     Swal.fire({
-      icon: "error",
-      title: "Error",
+      icon: "info",
+      // title: "Error",
       text: errorMessage,
       confirmButtonText: "OK",
-      showCancelButton: false,
-      showCloseButton: false,
+
       confirmButtonColor: "#f59e0b",
     });
     return;
@@ -150,7 +149,7 @@ function submitForm(event) {
         Swal.fire({
           icon: "error",
           title: "An error occurred",
-          html: "Please try again later.<br>Please try again in an hour.",
+          html: "Please try again in an hour.",
           confirmButtonText: "OK",
           confirmButtonColor: "#f59e0b",
         });
@@ -278,7 +277,7 @@ fileInput.addEventListener("change", function () {
     Swal.fire({
       icon: "info",
       title: "File Size Exceeded",
-      text: "Please choose an image file that is smaller than 400kb.",
+      text: "Please choose an image file that is less than 400kb.",
       confirmButtonText: "OK",
       confirmButtonColor: "#f59e0b",
     });
@@ -299,7 +298,7 @@ fileIdInput.addEventListener("change", function () {
     Swal.fire({
       icon: "info",
       title: "File Size Exceeded",
-      text: "Please choose an image file that is smaller than 400kb.",
+      text: "Please choose an image file that is less than 400kb.",
       confirmButtonText: "OK",
       confirmButtonColor: "#f59e0b",
     });
