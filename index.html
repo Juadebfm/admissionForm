@@ -11,6 +11,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./style.css" />
+    <link rel="shortcut icon" href="./favicon-32x32.png" type="image/x-icon" />
   </head>
   <body>
     <div class="container-fluid w-100">
@@ -50,6 +51,9 @@
                 placeholder="name@company.com"
                 required
               />
+              <div id="emailError" class="invalid-feedback">
+                Please enter a valid email address
+              </div>
             </div>
             <div class="mb-3 form-div">
               <label
@@ -64,6 +68,10 @@
                 placeholder="+2340123456789"
                 required
               />
+
+              <div id="phoneError" class="invalid-feedback">
+                Please enter a valid 11-digit phone number
+              </div>
             </div>
             <div class="mb-3 mt-5 form-div">
               <label
@@ -213,6 +221,9 @@
               placeholder="name@company.com"
               required
             />
+            <div id="emailRefError" class="invalid-feedback">
+              Please enter a valid email address
+            </div>
           </div>
           <div class="mb-3 form-div">
             <label
@@ -227,6 +238,9 @@
               placeholder="+01234567890"
               required
             />
+            <div id="phoneRefError" class="invalid-feedback">
+              Please enter a valid 11-digit phone number
+            </div>
           </div>
           <div class="form-check d-flex justify-content-center gap-3 mt-3">
             <input

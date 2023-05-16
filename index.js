@@ -49,21 +49,23 @@ function submitForm(event) {
     "state_of_residence",
     "program_type",
     "country",
-    "agree_checkbox", // add the checkbox field
+    "agree_checkbox",
+    "reference_name",
+    "reference_phone",
+    "reference_email",
   ];
 
-  var requiredCheckboxes = ["agree_checkbox"]; // specify which fields are checkboxes
+  var requiredCheckboxes = ["agree_checkbox"];
 
   var filledFields = true;
   var errorFields = [];
+
   requiredFields.forEach(function (field) {
     if (field == "course_of_interest" && !formdata.get(field)) {
       filledFields = false;
       errorFields.push(field);
     } else if (requiredCheckboxes.includes(field)) {
-      // check if field is a checkbox
       if (!document.getElementById(field).checked) {
-        // check if checkbox is checked
         filledFields = false;
         errorFields.push(field);
       }
@@ -73,36 +75,49 @@ function submitForm(event) {
     }
   });
 
+  if (!passportPhotograph || !personalIdPhotograph) {
+    filledFields = false;
+    if (!passportPhotograph) errorFields.push("passport_photograph");
+    if (!personalIdPhotograph) errorFields.push("personal_id_photograph");
+  }
+
   if (!filledFields) {
-    var errorMessage =
-      "Please ensure that you select a course of interest and: ";
-    errorFields.forEach(function (field) {
-      if (requiredCheckboxes.includes(field)) {
-        // update error message for checkboxes
-        errorMessage += "<div>Agree to our students policy.</div> ";
-      } else {
+    var errorMessage = "";
+
+    if (!formdata.get("course_of_interest")) {
+      errorMessage = "Please select a course of interest.";
+    } else if (!document.getElementById("agree_checkbox").checked) {
+      errorMessage =
+        "Please ensure that you have agreed to our student policy.";
+    } else {
+      errorMessage = "Please fill in the following fields: ";
+      errorFields.forEach(function (field) {
         errorMessage += field + ", ";
-      }
+      });
+      errorMessage = errorMessage.slice(0, -2) + ".";
+    }
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: errorMessage,
+      confirmButtonText: "OK",
+      showCancelButton: false,
+      showCloseButton: false,
+      confirmButtonColor: "#f59e0b",
     });
-    errorMessage = errorMessage.slice(0, -2) + ".";
-    var errorAlert =
-      '<div class="alert alert-danger alert-dismissible fade show w-75 mx-auto" role="alert">' +
-      errorMessage +
-      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-    document.getElementById("form-messages").innerHTML = errorAlert;
     return;
   }
 
-  // change button text to "submitting"
   var submitBtn = document.getElementById("submitBtn");
   submitBtn.innerHTML = "Submitting...";
 
-  // set up fetch request options
   var requestOptions = {
     method: "POST",
     body: formdata,
     redirect: "follow",
   };
+
   fetch(
     "https://pluralcode.academy/pluralcode_apis/api/enroll_student",
     requestOptions
@@ -112,27 +127,40 @@ function submitForm(event) {
       console.log(data); // log response to console for debugging purposes
       // change button text back to "submit form"
       submitBtn.innerHTML = "Submit Form";
+      const getForm = document.getElementById("enrollmentForm");
 
-      var successAlert = `
-      <div class="alert alert-success alert-dismissible fade show w-75 mx-auto" role="alert">
-        Your enrollment was successful!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    `;
-      document.getElementById("form-messages").innerHTML = successAlert;
-      document.getElementById("submitBtn").innerText = "Submit Form";
-      document.getElementById("enrollmentForm").reset();
+      if (data.message && data.status) {
+        Swal.fire({
+          icon: "success",
+          text: `${data.status} ${data.message}`,
+          confirmButtonText: "OK",
+        });
+        setTimeout(() => {
+          getForm.reset();
+        }, 5000);
+      } else if (data.error) {
+        Swal.fire({
+          icon: "info",
+          text: `${data.message}`,
+          confirmButtonText: "OK",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "An error occurred",
+          html: "Please try again later.<br>Please try again in an hour.",
+          confirmButtonText: "OK",
+        });
+      }
     })
     .catch((error) => {
       console.log("error", error);
-      var errorAlert = `
-      <div class="alert alert-danger alert-dismissible fade show w-75 mx-auto" role="alert">
-        Please ensure you select a course of interest.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    `;
-      document.getElementById("form-messages").innerHTML = errorAlert;
-      document.getElementById("submitBtn").innerText = "Submit Form";
+      Swal.fire({
+        icon: "error",
+        text: "Please make sure you filled the course of interest. If you have filled it and still encounter an error, please try again later.",
+        confirmButtonText: "OK",
+      });
+      submitBtn.innerHTML = "Submit Form";
     });
 }
 
@@ -157,3 +185,117 @@ window.onload = function () {
     })
     .catch((error) => console.error(error));
 };
+
+//email valid
+var emailInput = document.getElementById("email");
+emailInput.addEventListener("input", validateEmail);
+
+function validateEmail() {
+  var referenceEmail = emailInput.value;
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var isValid = emailRegex.test(referenceEmail);
+  var errorDiv = document.getElementById("emailError");
+
+  if (isValid) {
+    emailInput.classList.remove("is-invalid");
+    errorDiv.style.display = "none";
+  } else {
+    emailInput.classList.add("is-invalid");
+    errorDiv.style.display = "block";
+  }
+}
+
+// referernce email
+var referenceEmailInput = document.getElementById("reference_email");
+referenceEmailInput.addEventListener("input", validateReferenceEmail);
+
+function validateReferenceEmail() {
+  var referenceEmail = referenceEmailInput.value;
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var isValid = emailRegex.test(referenceEmail);
+  var errorDiv = document.getElementById("emailRefError");
+
+  if (isValid) {
+    referenceEmailInput.classList.remove("is-invalid");
+    errorDiv.style.display = "none";
+  } else {
+    referenceEmailInput.classList.add("is-invalid");
+    errorDiv.style.display = "block";
+  }
+}
+
+//phone number
+var phoneInput = document.getElementById("phone_number");
+phoneInput.addEventListener("input", validatePhone);
+
+function validatePhone() {
+  var phoneValue = phoneInput.value;
+  var isValid = /^\d{11}$/.test(phoneValue);
+  var errorDiv = document.getElementById("phoneError");
+
+  if (isValid) {
+    phoneInput.classList.remove("is-invalid");
+    errorDiv.style.display = "none";
+  } else {
+    phoneInput.classList.add("is-invalid");
+    errorDiv.style.display = "block";
+  }
+}
+
+//reference phone number
+var referencePhoneInput = document.getElementById("reference_phone");
+referencePhoneInput.addEventListener("input", validateReferencePhone);
+
+function validateReferencePhone() {
+  var phoneValue = referencePhoneInput.value;
+  var isValid = /^\d{11}$/.test(phoneValue);
+  var errorDiv = document.getElementById("phoneRefError");
+
+  if (isValid) {
+    referencePhoneInput.classList.remove("is-invalid");
+    errorDiv.style.display = "none";
+  } else {
+    referencePhoneInput.classList.add("is-invalid");
+    errorDiv.style.display = "block";
+  }
+}
+
+//file size valid
+var fileInput = document.getElementById("passport_photograph");
+var maxFileSize = 400 * 1024; // Maximum file size in bytes (400kb)
+
+// Add an event listener to the file input field
+fileInput.addEventListener("change", function () {
+  var file = fileInput.files[0];
+  if (file && file.size > maxFileSize) {
+    // Clear the file input field
+    fileInput.value = "";
+    // Show an error message to the user
+    Swal.fire({
+      icon: "error",
+      title: "File Size Exceeded",
+      text: "Please choose an image file that is smaller than 400kb.",
+      confirmButtonText: "OK",
+    });
+  }
+});
+
+//file size valid
+var fileIdInput = document.getElementById("personal_id_photograph");
+var maxFileSize = 400 * 1024; // Maximum file size in bytes (400kb)
+
+// Add an event listener to the file input field
+fileIdInput.addEventListener("change", function () {
+  var file = fileIdInput.files[0];
+  if (file && file.size > maxFileSize) {
+    // Clear the file input field
+    fileIdInput.value = "";
+    // Show an error message to the user
+    Swal.fire({
+      icon: "error",
+      title: "File Size Exceeded",
+      text: "Please choose an image file that is smaller than 400kb.",
+      confirmButtonText: "OK",
+    });
+  }
+});

@@ -101,3 +101,7 @@ input::placeholder {
 .fw-medium {
   color: #222057 !important;
 }
+
+.is-invalid {
+  border-color: red;
+}
