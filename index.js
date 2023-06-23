@@ -304,3 +304,27 @@ fileIdInput.addEventListener("change", function () {
     });
   }
 });
+
+// Radio buttons
+const fullPaymentRadio = document.getElementById("fullPayment");
+const partPaymentRadio = document.getElementById("partPayment");
+const notification = document.getElementById("notification");
+
+// Event listener for the "Part Payment" radio button
+partPaymentRadio.addEventListener("click", () => {
+  if (partPaymentRadio.checked) {
+    fullPaymentRadio.checked = false; // Uncheck "Full Payment"
+    notification.textContent =
+      "Kindly note that installment payment requires 70% down payment and Balance 4 weeks into the start of class";
+  } else {
+    notification.textContent = ""; // Clear the notification if unchecked
+  }
+});
+
+// Event listener for the "Full Payment" radio button
+fullPaymentRadio.addEventListener("click", () => {
+  if (fullPaymentRadio.checked) {
+    partPaymentRadio.checked = false; // Uncheck "Part Payment"
+    notification.textContent = ""; // Clear the notification for full payment
+  }
+});

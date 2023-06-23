@@ -105,3 +105,21 @@ input::placeholder {
 .is-invalid {
   border-color: red;
 }
+
+/* Increase the size of the radio buttons */
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Change the color of the radio buttons when checked */
+input[type="radio"]:checked {
+  border-color: #de48f7;
+  background-color: #de48f7;
+}
+
+#notification {
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
